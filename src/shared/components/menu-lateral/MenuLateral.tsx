@@ -11,7 +11,7 @@ import {
   useTheme,
 } from '@mui/material'
 import { Box } from '@mui/system'
-import { useNavigate } from 'react-router-dom'
+import { useMatch, useNavigate, useResolvedPath } from 'react-router-dom'
 import { useDrawerContext } from '../../contexts'
 
 interface IMenuLateralProps {
@@ -33,20 +33,21 @@ const ListItemLink: React.FC<IListItemLinkProps> = ({
 }) => {
   const navigate = useNavigate()
 
+  const resolvedPath = useResolvedPath(to)
+  const match = useMatch({ path: resolvedPath.pathname, end: false })
+
   const handleClick = () => {
     navigate(to)
     onClick?.()
   }
 
   return (
-    <List component="nav">
-      <ListItemButton onClick={handleClick}>
-        <ListItemIcon>
-          <Icon>{icon}</Icon>
-        </ListItemIcon>
-        <ListItemText primary={label} />
-      </ListItemButton>
-    </List>
+    <ListItemButton selected={!!match} onClick={handleClick}>
+      <ListItemIcon>
+        <Icon>{icon}</Icon>
+      </ListItemIcon>
+      <ListItemText primary={label} />
+    </ListItemButton>
   )
 }
 
