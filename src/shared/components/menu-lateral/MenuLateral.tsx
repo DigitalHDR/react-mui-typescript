@@ -20,11 +20,11 @@ interface IMenuLateralProps {
 export const MenuLateral: React.FC<IMenuLateralProps> = ({ children }) => {
   const theme = useTheme()
   const smDown = useMediaQuery(theme.breakpoints.down('sm'))
-  const { isDrawerOpen } = useDrawerContext()
+  const { isDrawerOpen, toggleDrawerOpen } = useDrawerContext()
 
   return (
     <>
-      <Drawer open={isDrawerOpen} variant={smDown ? 'temporary' : 'permanent'}>
+      <Drawer open={isDrawerOpen} onClose={toggleDrawerOpen} variant={smDown ? 'temporary' : 'permanent'}>
         <Box
           width={theme.spacing(28)}
           height="100%"
