@@ -1,6 +1,16 @@
 import { Box, Button, Icon, Paper, TextField, useTheme } from '@mui/material'
 
-export const BarraDeFerramentas: React.FC = () => {
+interface IBarraDeFerramentasProps {
+  textoDaBusca?: string
+  monstrarInputBusca?: boolean
+  aoMudarTextoDeBusca?: (novoTexto: string) => void
+}
+
+export const BarraDeFerramentas: React.FC<IBarraDeFerramentasProps> = ({
+  textoDaBusca = '',
+  monstrarInputBusca = false,
+  aoMudarTextoDeBusca,
+}) => {
   const theme = useTheme()
   return (
     <Box
@@ -13,7 +23,14 @@ export const BarraDeFerramentas: React.FC = () => {
       alignItems="center"
       component={Paper}
     >
-      <TextField size="small" placeholder="Pesquisar..." />
+      {monstrarInputBusca && (
+        <TextField
+          size="small"
+          value={textoDaBusca}
+          onChange={e => aoMudarTextoDeBusca?.(e.target.value)}
+          placeholder="Pesquisar..."
+        />
+      )}
 
       <Box flex={1} display="flex" justifyContent="flex-end"></Box>
 
