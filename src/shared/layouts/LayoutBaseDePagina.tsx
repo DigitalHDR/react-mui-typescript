@@ -11,12 +11,14 @@ import { useDrawerContext } from '../contexts'
 
 interface IILayoutBaseDePaginaProps {
   titulo: string
+  barraDeFerramentas?: React.ReactNode
   children: React.ReactNode
 }
 
 export const LayoutBaseDePagina: React.FC<IILayoutBaseDePaginaProps> = ({
   children,
   titulo,
+  barraDeFerramentas,
 }) => {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
   const theme = useTheme()
@@ -40,7 +42,7 @@ export const LayoutBaseDePagina: React.FC<IILayoutBaseDePaginaProps> = ({
         <Typography variant="h5">{titulo}</Typography>
       </Box>
 
-      <Box>Barra de ferramentas</Box>
+      {barraDeFerramentas && <Box>{barraDeFerramentas}</Box>}
 
       <Box>{children}</Box>
     </Box>
