@@ -4,12 +4,18 @@ interface IBarraDeFerramentasProps {
   textoDaBusca?: string
   monstrarInputBusca?: boolean
   aoMudarTextoDeBusca?: (novoTexto: string) => void
+  textoBotaoNovo?: string
+  monstrarBotaoNovo?: boolean
+  aoClicarEmNovo?: () => void
 }
 
 export const BarraDeFerramentas: React.FC<IBarraDeFerramentasProps> = ({
   textoDaBusca = '',
   monstrarInputBusca = false,
   aoMudarTextoDeBusca,
+  aoClicarEmNovo,
+  textoBotaoNovo = 'Novo',
+  monstrarBotaoNovo = true,
 }) => {
   const theme = useTheme()
   return (
@@ -34,14 +40,17 @@ export const BarraDeFerramentas: React.FC<IBarraDeFerramentasProps> = ({
 
       <Box flex={1} display="flex" justifyContent="flex-end"></Box>
 
-      <Button
-        color="primary"
-        variant="contained"
-        disableElevation
-        endIcon={<Icon>add</Icon>}
-      >
-        Novo
-      </Button>
+      {monstrarBotaoNovo && (
+        <Button
+          color="primary"
+          variant="contained"
+          disableElevation
+          onClick={aoClicarEmNovo}
+          endIcon={<Icon>add</Icon>}
+        >
+          {textoBotaoNovo}
+        </Button>
+      )}
     </Box>
   )
 }
