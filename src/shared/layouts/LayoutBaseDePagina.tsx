@@ -32,8 +32,8 @@ export const LayoutBaseDePagina: React.FC<IILayoutBaseDePaginaProps> = ({
         padding={1}
         display="flex"
         alignItems="center"
-        height={theme.spacing(12)}
         gap={1}
+        height={theme.spacing(smDown ? 6 : mdDown ? 8 : 12)}
       >
         {smDown && (
           <IconButton onClick={toggleDrawerOpen}>
