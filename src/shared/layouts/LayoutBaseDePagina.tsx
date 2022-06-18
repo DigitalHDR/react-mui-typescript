@@ -21,6 +21,7 @@ export const LayoutBaseDePagina: React.FC<IILayoutBaseDePaginaProps> = ({
   barraDeFerramentas,
 }) => {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
+  const mdDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'))
   const theme = useTheme()
 
   const { toggleDrawerOpen } = useDrawerContext()
@@ -39,12 +40,21 @@ export const LayoutBaseDePagina: React.FC<IILayoutBaseDePaginaProps> = ({
             <Icon>menu</Icon>
           </IconButton>
         )}
-        <Typography variant="h5">{titulo}</Typography>
+        <Typography
+          variant={smDown ? 'h5' : mdDown ? 'h4' : 'h3'}
+          whiteSpace="nowrap"
+          textOverflow="ellipsis"
+          overflow="hidden"
+        >
+          {titulo}
+        </Typography>
       </Box>
 
       {barraDeFerramentas && <Box>{barraDeFerramentas}</Box>}
 
-      <Box>{children}</Box>
+      <Box flex={1} overflow="auto">
+        {children}
+      </Box>
     </Box>
   )
 }
