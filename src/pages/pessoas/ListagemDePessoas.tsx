@@ -8,7 +8,7 @@ import { useDebounce } from '../../shared/hooks'
 
 export const ListagemDePessoas: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams()
-  const { debounce } = useDebounce()
+  const { debounce } = useDebounce(1000, false)
 
   const busca = useMemo(() => {
     return searchParams.get('busca') || ''
