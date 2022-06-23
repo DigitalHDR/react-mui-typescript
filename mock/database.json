@@ -61,12 +61,6 @@
       "nomeCompleto": "camila Silva"
     },
     {
-      "id": 11,
-      "cidadeId": 1,
-      "email": "natalia@gmail.com",
-      "nomeCompleto": "natalia Silva"
-    },
-    {
       "id": 12,
       "cidadeId": 1,
       "email": "adriele@gmail.com",

@@ -107,7 +107,7 @@ const deleteById = async (id: number): Promise<void | Error> => {
   }
 }
 
-export const PessoasSesvices = {
+export const PessoasServices = {
   getAll,
   getById,
   create,
