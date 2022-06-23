@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { VTextField } from '../../shared/forms'
+import { LinearProgress } from '@mui/material'
+import { Form } from '@unform/web'
 
 import { PessoasServices } from '../../shared/services/api/pessoas/PessoasServices'
 import { FerramentasDeDetalhes } from '../../shared/components'
 import { LayoutBaseDePagina } from '../../shared/layouts'
-import { LinearProgress } from '@mui/material'
 
 export const DetalheDePessoas: React.FC = () => {
   const { id = 'nova' } = useParams<'id'>()
@@ -55,7 +57,6 @@ export const DetalheDePessoas: React.FC = () => {
           mostrarBotaoSalvarEFechar
           mostrarBotaoNovo={id !== 'nova'}
           mostrarBotaoApagar={id !== 'nova'}
-
           aoClicarEmSalvar={handleSave}
           aoClicarEmSalvarEFechar={handleSave}
           aoClicarEmVoltar={() => navigate('/pessoas')}
@@ -66,7 +67,11 @@ export const DetalheDePessoas: React.FC = () => {
     >
       {isLoading && <LinearProgress variant="indeterminate" />}
 
-      <div>DetalheDePessoas {id}</div>
+      <Form onSubmit={(dados) => console.log(dados)}>
+        <VTextField name='nomeCompleto'  />
+
+        <button type="submit">addd</button>
+      </Form>
     </LayoutBaseDePagina>
   )
 }
