@@ -1,5 +1,8 @@
 import { BrowserRouter } from 'react-router-dom'
 
+import './shared/forms/TraducoesYup'
+// tradução que auto-se executa pra traduzir erros do YUP
+
 import { AppThemeProvider } from './shared/contexts/ThemeContext'
 import { AppRoutes } from './routes'
 import { MenuLateral } from './shared/components'
