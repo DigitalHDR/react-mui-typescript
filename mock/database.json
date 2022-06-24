@@ -83,6 +83,12 @@
       "nomeCompleto": "pessas power",
       "email": "pessas@email.com",
       "cidadeId": "4"
+    },
+    {
+      "nomeCompleto": "",
+      "email": "",
+      "cidadeId": "",
+      "id": 17
     }
   ]
 }
