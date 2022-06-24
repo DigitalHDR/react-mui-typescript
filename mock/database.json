@@ -90,5 +90,15 @@
       "cidadeId": "",
       "id": 17
     }
+  ],
+  "cidades": [
+    {
+      "nome": "Porto Alegre",
+      "id": 1
+    },
+    {
+      "nome": "bahia",
+      "id": 2
+    }
   ]
 }
