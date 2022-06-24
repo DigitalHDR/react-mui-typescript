@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
 import { Box, Grid, LinearProgress, Paper, Typography } from '@mui/material'
 import { useNavigate, useParams } from 'react-router-dom'
+import * as yup from 'yup'
 
 import { PessoasServices } from '../../shared/services/api/pessoas/PessoasServices'
-import { VTextField, VForm, useVForm } from '../../shared/forms'
+import { VTextField, VForm, useVForm, IVFormErrors } from '../../shared/forms'
 import { FerramentasDeDetalhes } from '../../shared/components'
 import { LayoutBaseDePagina } from '../../shared/layouts'
 
@@ -12,6 +13,11 @@ interface IFormData {
   cidadeId: number
   nomeCompleto: string
 }
+const formValidationSchema: yup.SchemaOf<IFormData> = yup.object().shape({
+  cidadeId: yup.number().required(),
+  email: yup.string().required().email(),
+  nomeCompleto: yup.string().required().min(3),
+})
 
 export const DetalheDePessoas: React.FC = () => {
   const { formRef, save, saveAndClose, isSaveAndClose } = useVForm()
@@ -33,8 +39,6 @@ export const DetalheDePessoas: React.FC = () => {
           navigate('/pessoas')
         } else {
           setNome(result.nomeCompleto)
-          console.log(result)
-
           formRef.current?.setData(result)
         }
       })
@@ -48,38 +52,53 @@ export const DetalheDePessoas: React.FC = () => {
   }, [id])
 
   const handleSave = (dados: IFormData) => {
-    setIsLoading(true)
+    formValidationSchema
+      .validate(dados, { abortEarly: false })
+      .then(dadosValidados => {
+        setIsLoading(true)
 
-    if (id === 'nova') {
-      PessoasServices.create(dados).then(result => {
-        setIsLoading(false)
+        if (id === 'nova') {
+          PessoasServices.create(dadosValidados).then(result => {
+            setIsLoading(false)
 
-        if (result instanceof Error) {
-          alert(result.message)
+            if (result instanceof Error) {
+              alert(result.message)
+            } else {
+              if (isSaveAndClose()) {
+                navigate('/pessoas')
+              } else {
+                navigate(`/pessoas/detalhe/${result}`)
+              }
+            }
+          })
         } else {
-          if (isSaveAndClose()) {
-            navigate('/pessoas')
-          } else {
-            navigate(`/pessoas/detalhe/${result}`)
-            
-          }
+          PessoasServices.updateById(Number(id), {
+            id: Number(id),
+            ...dadosValidados,
+          }).then(result => {
+            setIsLoading(false)
+
+            if (result instanceof Error) {
+              alert(result.message)
+            } else {
+              if (isSaveAndClose()) {
+                navigate('/pessoas')
+              }
+            }
+          })
         }
       })
-    } else {
-      PessoasServices.updateById(Number(id), { id: Number(id), ...dados }).then(
-        result => {
-          setIsLoading(false)
+      .catch((errors: yup.ValidationError) => {
+        const validationErrors: IVFormErrors = {}
 
-          if (result instanceof Error) {
-            alert(result.message)
-          } else {
-            if (isSaveAndClose()) {
-              navigate('/pessoas')
-            }
-          }
-        }
-      )
-    }
+        errors.inner.forEach(error => {
+          if (!error.path) return
+
+          validationErrors[error.path] = error.message
+        })
+
+        formRef.current?.setErrors(validationErrors)
+      })
   }
 
   const handleDelete = (id: number) => {
@@ -104,7 +123,6 @@ export const DetalheDePessoas: React.FC = () => {
           mostrarBotaoSalvarEFechar
           mostrarBotaoNovo={id !== 'nova'}
           mostrarBotaoApagar={id !== 'nova'}
-
           aoClicarEmSalvar={save}
           aoClicarEmSalvarEFechar={saveAndClose}
           aoClicarEmVoltar={() => navigate('/pessoas')}
@@ -132,34 +150,34 @@ export const DetalheDePessoas: React.FC = () => {
               <Typography variant="h6">Geral</Typography>
             </Grid>
 
-            <Grid container item direction="row">
+            <Grid container item direction="row" spacing={2}>
               <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
                 <VTextField
                   fullWidth
-                  label="Nome completo"
                   name="nomeCompleto"
                   disabled={isLoading}
+                  label="Nome completo"
                   onChange={e => setNome(e.target.value)}
                 />
               </Grid>
             </Grid>
 
-            <Grid container item direction="row">
+            <Grid container item direction="row" spacing={2}>
               <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
                 <VTextField
                   fullWidth
-                  label="Email"
                   name="email"
+                  label="Email"
                   disabled={isLoading}
                 />
               </Grid>
             </Grid>
 
-            <Grid container item direction="row">
+            <Grid container item direction="row" spacing={2}>
               <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
                 <VTextField
                   fullWidth
-                  label="Cidade ID"
+                  label="Cidade"
                   name="cidadeId"
                   disabled={isLoading}
                 />
