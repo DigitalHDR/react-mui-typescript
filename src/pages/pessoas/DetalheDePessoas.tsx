@@ -10,7 +10,7 @@ import { VTextField } from '../../shared/forms'
 
 interface IFormData {
   email: string
-  cidadeId: string
+  cidadeId: number
   nomeCompleto: string
 }
 
@@ -36,13 +36,37 @@ export const DetalheDePessoas: React.FC = () => {
         } else {
           setNome(result.nomeCompleto)
           console.log(result)
+
+          formRef.current?.setData(result)
         }
       })
     }
   }, [id])
 
   const handleSave = (dados: IFormData) => {
-    console.log(dados)
+    setIsLoading(true)
+
+    if (id === 'nova') {
+      PessoasServices.create(dados).then(result => {
+        setIsLoading(false)
+
+        if (result instanceof Error) {
+          alert(result.message)
+        } else {
+          navigate(`/pessoas/detalhe/${result}`)
+        }
+      })
+    } else {
+      PessoasServices.updateById(Number(id), { id: Number(id), ...dados }).then(
+        result => {
+          setIsLoading(false)
+
+          if (result instanceof Error) {
+            alert(result.message)
+          }
+        }
+      )
+    }
   }
 
   const handleDelete = (id: number) => {
@@ -76,9 +100,9 @@ export const DetalheDePessoas: React.FC = () => {
       }
     >
       <Form ref={formRef} onSubmit={handleSave}>
-        <VTextField name="nomeCompleto" />
-        <VTextField name="email" />
-        <VTextField name="cidadeId" />
+        <VTextField placeholder="Nome completo" name="nomeCompleto" />
+        <VTextField placeholder="Email" name="email" />
+        <VTextField placeholder="Cidade ID" name="cidadeId" />
       </Form>
     </LayoutBaseDePagina>
   )
