@@ -26,9 +26,9 @@
     },
     {
       "id": 6,
-      "cidadeId": 1,
+      "nomeCompleto": "bia Silva",
       "email": "bia@gmail.com",
-      "nomeCompleto": "bia Silva"
+      "cidadeId": 3
     },
     {
       "id": 7,
@@ -77,18 +77,6 @@
       "email": "goku@email.com",
       "cidadeId": "1",
       "id": 15
-    },
-    {
-      "id": 16,
-      "nomeCompleto": "pessas power",
-      "email": "pessas@email.com",
-      "cidadeId": "4"
-    },
-    {
-      "nomeCompleto": "",
-      "email": "",
-      "cidadeId": "",
-      "id": 17
     }
   ],
   "cidades": [
@@ -99,6 +87,14 @@
     {
       "nome": "bahia",
       "id": 2
+    },
+    {
+      "id": 3,
+      "nome": "aff"
+    },
+    {
+      "nome": "universo",
+      "id": 4
     }
   ]
 }
